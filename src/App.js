@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+import React from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+	const [number, setNumber] = useState(10);
+
+	const handler = (e) => setNumber(prev => prev + 1)
+
+	useEffect(() => {
+   	console.log('work')
+	})
+
+	return (
+    <div className="container">
+      <h1>Hello useEffect</h1>
+      <h3>My number is {number}</h3>
+      <a
+        onClick={handler}
+        className="waves-effect waves-light btn"
+      >
+        button
+			</a>
+			<br/>
+			<br/>
+      <a
+        onClick={handler}
+        className="waves-effect waves-light btn pink lighten-1"
+      >
+        get some features
+      </a>
     </div>
   );
 }
