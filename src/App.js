@@ -1,36 +1,45 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import Spinner from './spinner';
+import Title from './title'
 import './App.css';
 
 function App() {
-	const [number, setNumber] = useState(10);
+  const [number, setNumber] = useState(10);
+  const [dataFromServer, setDataFromServer] = useState('no data');
+  const [loading, setLoading] = useState(true);
 
-	const handler = (e) => setNumber(prev => prev + 1)
+  const handler = (e) => setNumber((prev) => prev + 1);
 
-	useEffect(() => {
-   	console.log('work')
-	})
+  useEffect(() => {
+    getData();
+  }, []);
 
-	return (
-    <div className="container">
-      <h1>Hello useEffect</h1>
-      <h3>My number is {number}</h3>
-      <a
-        onClick={handler}
-        className="waves-effect waves-light btn"
-      >
-        button
-			</a>
-			<br/>
-			<br/>
-      <a
-        onClick={handler}
-        className="waves-effect waves-light btn pink lighten-1"
-      >
-        get some features
-      </a>
-    </div>
-  );
+  const getData = async () => {
+    const response = await fetch('/features', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    // console.log("result is ", result)
+    // console.log('typeof result is ', typeof result);
+    setDataFromServer(result);
+    setLoading(false);
+  };
+
+    const spinner = loading ? <Spinner/> : null
+		return (
+     <div className="container">
+     	 <Title
+	        handler={handler}
+	        dataFromServer={dataFromServer}
+	        number={number}
+				/>
+				{spinner}
+     </div>
+    );
 }
 
 export default App;
